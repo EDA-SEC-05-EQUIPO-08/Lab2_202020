@@ -1,6 +1,6 @@
 """
  * Copyright 2020, Departamento de sistemas y Computación, Universidad de Los Andes
- * 
+ *
  * Contribución de:
  *
  * Cristian Camilo Castellanos
@@ -33,7 +33,7 @@ from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
 
-from time import process_time 
+from time import process_time
 
 
 def loadCSVFile (file, sep=";"):
@@ -47,10 +47,10 @@ def loadCSVFile (file, sep=";"):
         Try:
         Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
         Borra la lista e informa al usuario
-    Returns: None  
+    Returns: None
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    lst = lt.newList("LINKED_LIST") #Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -58,7 +58,7 @@ def loadCSVFile (file, sep=";"):
     try:
         with open(file, encoding="utf-8") as csvfile:
             spamreader = csv.DictReader(csvfile, dialect=dialect)
-            for row in spamreader: 
+            for row in spamreader:
                 lt.addLast(lst,row)
     except:
         print("Hubo un error con la carga del archivo")
@@ -80,7 +80,7 @@ def printMenu():
 
 def countElementsFilteredByColumn(criteria, column, lst):
     """
-    Retorna cuantos elementos coinciden con un criterio para una columna dada  
+    Retorna cuantos elementos coinciden con un criterio para una columna dada
     Args:
         criteria:: str
             Critero sobre el cual se va a contar la cantidad de apariciones
@@ -93,7 +93,7 @@ def countElementsFilteredByColumn(criteria, column, lst):
             la cantidad de veces ue aparece un elemento con el criterio definido
     """
     if lst['size']==0:
-        print("La lista esta vacía")  
+        print("La lista esta vacía")
         return 0
     else:
         t1_start = process_time() #tiempo inicial
@@ -101,8 +101,8 @@ def countElementsFilteredByColumn(criteria, column, lst):
         iterator = it.newIterator(lst)
         while  it.hasNext(iterator):
             element = it.next(iterator)
-            if criteria.lower() in element[column].lower(): #filtrar por palabra clave 
-                counter+=1           
+            if criteria.lower() in element[column].lower(): #filtrar por palabra clave
+                counter+=1
         t1_stop = process_time() #tiempo final
         print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return counter
@@ -125,7 +125,7 @@ def main():
 
     Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
     Args: None
-    Return: None 
+    Return: None
     """
     lista = lt.newList()   # se require usar lista definida
     while True:
@@ -133,18 +133,18 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test.csv") #llamar funcion cargar datos
+                lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv") #llamar funcion cargar datos
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
-                    print("La lista esta vacía")    
+                    print("La lista esta vacía")
                 else: print("La lista tiene ",lista['size']," elementos")
             elif int(inputs[0])==3: #opcion 3
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
-                else:   
+                else:
                     criteria =input('Ingrese el criterio de búsqueda\n')
-                    counter=countElementsFilteredByColumn(criteria, "nombre", lista) #filtrar una columna por criterio  
+                    counter=countElementsFilteredByColumn(criteria, "nombre", lista) #filtrar una columna por criterio
                     print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
             elif int(inputs[0])==4: #opcion 4
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
@@ -155,6 +155,6 @@ def main():
                     print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
-                
+
 if __name__ == "__main__":
     main()
