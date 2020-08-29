@@ -23,7 +23,7 @@
 import config as cf
 from ADT import list as lt
 
-def insertionSort (lst, lessfunction,column): 
+def insertionSort (lst, lessfunction,column="id"): 
     size =  lt.size(lst) 
     pos1 = 1
     while pos1 <= size:

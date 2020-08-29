@@ -52,6 +52,7 @@ def loadCSVFile (file, sep=";"):
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
     lst = lt.newList() #Usando implementacion linkedlist
+   
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -67,6 +68,49 @@ def loadCSVFile (file, sep=";"):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return lst
 
+
+def loadCSVFile_2_at_once (file,file_1, sep=";"):
+    """
+    Carga un archivo csv a una lista
+    Args:
+        file
+            Archivo csv del cual se importaran los datos
+        sep = ";"
+            Separador utilizado para determinar cada objeto dentro del archivo
+        Try:
+        Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
+        Borra la lista e informa al usuario
+    Returns: None  
+    """
+    #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
+    lst = lt.newList() #Usando implementacion linkedlist
+   
+    print("Cargando archivo ....")
+    t1_start = process_time() #tiempo inicial
+    dialect = csv.excel()
+    dialect.delimiter=sep
+    try:
+        with open(file, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            with open(file_1, encoding="utf-8") as csvfile2:
+                countrdr = csv.DictReader(csvfile, dialect=dialect)
+                totalrows = 0
+                for row in countrdr:
+                    totalrows += 1
+                csvfile.seek(0)
+                spamreader1 = csv.DictReader(csvfile2, dialect=dialect)
+                for i in range(0,totalrows): 
+                    lt.addLast(lst,{**next(spamreader),**next(spamreader1)})
+    except:
+        print("Hubo un error con la carga del archivo")
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return lst
+
+
+
+
+     
 
 def printMenu():
     """
@@ -161,8 +205,12 @@ def orderElementsByCriteria(function, column, lst, elements):
     else:
         t1_start = process_time() #tiempo inicial
         #Organiza la lista 
-        insort.insertionSort(lst, function,column)
-        
+        #usa insertion sort
+        #insort.insertionSort(lst, function,column)
+        #usa selection sort
+        #sort.selectionSort(lst,function,column)
+        #usa shell sort
+        shellsort.shellSort(lst,function,column)
         iterator = it.newIterator(lst)
         
         res=lt.newList()
@@ -219,6 +267,10 @@ def main():
                 lista=lt.newList()
                 lista_casting=lt.newList()
                 lista_details=lt.newList()
+                t1_start=process_time()
+                #lista=loadCSVFile_2_at_once("Data/Kaggle/AllMoviesDetailsCleaned.csv","Data/Kaggle/AllMoviesCastingRaw.csv")
+                lista=loadCSVFile_2_at_once("Data/Kaggle/SmallMoviesDetailsCleaned.csv","Data/Kaggle/MoviesCastingRaw-small.csv")
+                """
                 lista_details= loadCSVFile("Data/Kaggle/SmallMoviesDetailsCleaned.csv") #llamar funcion cargar datos
                 lista_casting= loadCSVFile("Data/Kaggle/MoviesCastingRaw-small.csv") #llamar funcion cargar datos
                  #unir dicionarios.
@@ -226,6 +278,9 @@ def main():
                      details=lt.getElement(lista_details,i)
                      casting=lt.getElement(lista_casting,i)
                      lt.addLast(lista,{**lt.getElement(lista_details,i), **lt.getElement(lista_casting,i)})
+                """
+                t1_stop = process_time() #tiempo final
+                print("Tiempo de ejecución union de datos",t1_stop-t1_start," segundos")
                 print("Datos cargados, "+str(lt.size(lista))+" elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 criteria =input('Ingrese el nombre del director\n')
