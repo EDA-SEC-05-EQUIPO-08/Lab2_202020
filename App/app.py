@@ -179,8 +179,8 @@ def countElementsByCriteria(criteria, column, lst):
         prom=0 #Promedio de votos por director
         iterator = it.newIterator(lst)
         size=lt.size(lst)
-        res=lt.newList()
-        res1=lt.newList()
+        res=lt.newList("ARRAY_LIST")
+        res1=lt.newList("ARRAY_LIST")
         for i in range (0,size):
             element = it.next(iterator)
             if criteria.lower() in element[column].lower(): #filtrar por director  
@@ -264,12 +264,12 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista=lt.newList()
+                lista=lt.newList('ARRAY_LIST')
                 lista_casting=lt.newList()
                 lista_details=lt.newList()
                 t1_start=process_time()
-                #lista=loadCSVFile_2_at_once("Data/Kaggle/AllMoviesDetailsCleaned.csv","Data/Kaggle/AllMoviesCastingRaw.csv")
-                lista=loadCSVFile_2_at_once("Data/Kaggle/SmallMoviesDetailsCleaned.csv","Data/Kaggle/MoviesCastingRaw-small.csv")
+                lista=loadCSVFile_2_at_once("Data/Kaggle/AllMoviesDetailsCleaned.csv","Data/Kaggle/AllMoviesCastingRaw.csv")
+                #lista=loadCSVFile_2_at_once("Data/Kaggle/SmallMoviesDetailsCleaned.csv","Data/Kaggle/MoviesCastingRaw-small.csv")
                 """
                 lista_details= loadCSVFile("Data/Kaggle/SmallMoviesDetailsCleaned.csv") #llamar funcion cargar datos
                 lista_casting= loadCSVFile("Data/Kaggle/MoviesCastingRaw-small.csv") #llamar funcion cargar datos
